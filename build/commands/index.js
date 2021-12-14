@@ -169,17 +169,9 @@ const child_process_1 = require("child_process");
 const Header_1 = __importDefault(require("../components/Header"));
 
 function Next({
-  name = "dpc-next"
+  name
 }) {
-  (0, react_1.useEffect)(() => {
-    const cloneSpawn = (0, child_process_1.spawn)("git", ["clone", "https://github.com/DPC-Nordics/dpc-next.git", name], {
-      stdio: "inherit"
-    });
-    cloneSpawn.addListener("message", message => console.log(message));
-    return () => {
-      cloneSpawn.removeAllListeners("message");
-    };
-  }, [name]);
+  useCloseRepo(name);
   return (0, jsx_runtime_1.jsx)(ink_1.Box, Object.assign({
     flexDirection: "column"
   }, {
@@ -195,6 +187,23 @@ Next.propTypes = {
   name: prop_types_1.default.string
 };
 Next.positionalArgs = ["name"];
+
+function useCloseRepo(name = "dpc-next") {
+  const {
+    exit
+  } = (0, ink_1.useApp)();
+  (0, react_1.useEffect)(() => {
+    const cloneSpawn = (0, child_process_1.spawn)("git", ["clone", "https://github.com/DPC-Nordics/dpc-next.git", name], {
+      stdio: "inherit"
+    });
+    cloneSpawn.addListener("message", message => console.log(message));
+    cloneSpawn.addListener("close", exitCode => exit(exitCode ? new Error("Error occurred") : undefined));
+    return () => {
+      cloneSpawn.removeAllListeners("message");
+      cloneSpawn.removeAllListeners("close");
+    };
+  }, [name, exit]);
+}
 },{"../components/Header":"../components/Header.tsx"}],"index.tsx":[function(require,module,exports) {
 "use strict";
 

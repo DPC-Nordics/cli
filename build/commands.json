@@ -2,6 +2,15 @@
 	"commands": [
 		{
 			"description": "",
+			"positionalArgs": [],
+			"args": [],
+			"isIndex": true,
+			"name": "*",
+			"path": "index.tsx",
+			"subCommands": []
+		},
+		{
+			"description": "",
 			"positionalArgs": [
 				"name"
 			],
@@ -18,15 +27,6 @@
 			"isIndex": false,
 			"name": "next",
 			"path": "next.tsx",
-			"subCommands": []
-		},
-		{
-			"description": "",
-			"positionalArgs": [],
-			"args": [],
-			"isIndex": true,
-			"name": "*",
-			"path": "index.tsx",
 			"subCommands": []
 		}
 	]
