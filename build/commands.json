@@ -1,0 +1,33 @@
+{
+	"commands": [
+		{
+			"description": "",
+			"positionalArgs": [
+				"name"
+			],
+			"args": [
+				{
+					"key": "name",
+					"type": "string",
+					"description": "Name of the project after cloning",
+					"isRequired": false,
+					"aliases": [],
+					"positional": true
+				}
+			],
+			"isIndex": false,
+			"name": "next",
+			"path": "next.tsx",
+			"subCommands": []
+		},
+		{
+			"description": "",
+			"positionalArgs": [],
+			"args": [],
+			"isIndex": true,
+			"name": "*",
+			"path": "index.tsx",
+			"subCommands": []
+		}
+	]
+}
