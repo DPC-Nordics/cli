@@ -2,7 +2,7 @@
   "name": "dpc-nordics",
   "version": "0.1.0",
   "description": "CLI for bootstrapping and maintaining DPC Nordic projects.",
-  "bin": "bin/cli.js",
+  "bin": "bin/index.js",
   "files": [
     "bin"
   ],
