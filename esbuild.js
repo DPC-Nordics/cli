@@ -16,6 +16,7 @@ const buildOptions = {
   watch,
   color: true,
   logLevel: "info",
+  define: { "process.env.NODE_ENV": watch ? '"development"' : '"production"' },
 };
 
 require("esbuild")
