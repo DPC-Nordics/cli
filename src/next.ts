@@ -1,32 +1,60 @@
+import type { CommandModule, Argv, Arguments } from "yargs";
 import { join } from "path";
-import { Command } from "commander";
 import { spawn } from "./helpers";
 
-export const nextCommand = new Command()
-  .command("next")
-  .option("-i, --install", "Install dependencies.")
-  .option("-d, --dev", "Start dev mode after setup.")
-  .argument("[name]", "Name of the project directory.", "dpc-next")
-  .description("Create new NextJS E-commerce project.")
-  .action(createNextProject);
+export default {
+  command: "next [name]",
+  describe: "Create new NextJS E-commerce project.",
+  builder,
+  handler,
+} as CommandModule;
 
-async function createNextProject(
-  name: string,
-  options: { install?: boolean; dev?: boolean }
-) {
+function builder(yargs: Argv) {
+  yargs.positional("name", {
+    type: "string",
+    default: "dpc-next",
+    describe: "Name of the project directory.",
+  });
+
+  yargs.option("i", {
+    alias: "install",
+    describe: "Install dependencies.",
+    type: "boolean",
+    default: false,
+  });
+
+  yargs.option("d", {
+    alias: "dev",
+    describe: "Start dev mode after setup.",
+    type: "boolean",
+    default: false,
+  });
+
+  return yargs;
+}
+
+interface Options extends Arguments {
+  name: string;
+  install: boolean;
+  dev: boolean;
+}
+
+async function handler({ name, install, dev }: Options) {
   try {
     const path = join(process.cwd(), name);
     await cloneRepo("https://github.com/DPC-Nordics/dpc-next.git", path);
     const preferYarn = await checkYarn();
-    if (options.install) {
+    if (install) {
       await installDeps(path, preferYarn);
-      if (options.dev) await runDevMode(path, preferYarn);
+      if (dev) await runDevMode(path, preferYarn);
     }
     console.log(`\nYour project "${name}" is ready to go!\n`);
   } catch (error: any) {
     console.error("\n" + error.message, "\n");
   }
 }
+
+// Helpers
 
 async function cloneRepo(repo: string, name: string) {
   const statusCode = await spawn("git", ["clone", repo, name]);

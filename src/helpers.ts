@@ -12,3 +12,12 @@ export async function spawn(
     p.on("error", reject);
   });
 }
+
+/** Header component */
+export function Header() {
+  const title = "DPC Nordics CLI";
+  const line = Array(title.length).fill("─").join("");
+  console.clear();
+  console.log(title);
+  console.log(line);
+}
